@@ -1,167 +1,285 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
-  }
-  
-  #app {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  h1 {
-    text-align: center;
-    color: #444;
-  }
-  
-  form {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-  
-  form input {
-    flex: 1;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  form button {
-    padding: 10px 20px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  form button:hover {
-    background-color: #4cae4c;
-  }
-  
-  #task-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #task-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 5px;
-    background-color: white;
-  }
-  
-  #task-list li.completed {
-    text-decoration: line-through;
-    color: gray;
-  }
-  
-  button {
-    margin-left: 5px;
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #c9302c;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 300px; /* Maksymalna szerokość formularza */
-    margin: 0 auto; /* Wycentrowanie */
-  }
-  
-  form input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  form button {
-    padding: 10px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-  }
-  
-  form button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Dodatkowe style dla kontenera */
-  #login-form-container, #register-form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    width: 350px;
-    margin: 20px auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  #login-form-container h2, #register-form-container h2 {
-    margin: 0;
-    font-size: 24px;
-  }
-/* Styl formularza dodawania zadania */
-.task-form {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  justify-content: center;
   align-items: center;
-  justify-content: center; /* Wyśrodkowanie formularza */
-  width: auto;
-  max-width: 600px; /* Ograniczenie szerokości */
-  margin: 20px auto; /* Wycentrowanie formularza */
+  height: 100vh;
 }
 
-.task-form input {
-  padding: 8px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  flex-grow: 1; /* Wypełnia dostępne miejsce */
-  max-width: 400px; /* Ograniczenie szerokości pola */
+#app {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
   box-sizing: border-box;
 }
 
-.task-form button {
-  padding: 8px 16px;
+h1 {
+  text-align: center;
+  color: #444;
+}
+
+#user-info {
+  height: 80px;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 700;
+  
+}
+
+/* Wspólne style dla formularzy */
+form, .task-form {
+  top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+/* Zaokrąglone przyciski i animacje */
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: white;
+  border: 5px solid #007BFF;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+button:hover {
+  background-color: #0056b3;
+  color: #fff;
+  border-color: #0056b3;
+  transform: translateY(-5px);  /* Lekka animacja unoszenia */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Efekt cienia */
+}
+
+/* Dodatkowe efekty dla innych przycisków */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+#register-btn {
+  background-color: white;
+  color: #007BFF
+}
+
+#register-btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+#logout-btn {
+  width: 140px;
+  justify-content: center;
+  align-content: center;
+  float: right;
+}
+
+/* Zadania i lista */
+#task-list {
+  list-style: none;
+  padding: 0;
+}
+
+#task-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+
+#task-list li.completed {
+  text-decoration: line-through;
+  background-color: #f1f1f1;
+  color: #aaa;
+}
+
+/* Przyciski w zadaniach */
+#task-list li button {
+  padding: 8px 12px;
   font-size: 14px;
-  background-color: #28a745;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 100px;
+  margin-left: 10px;
+}
+
+#task-list li button:hover {
+  background-color: #c9302c;
+  transform: translateY(-3px);
+}
+
+/* Efekt na liście zadań przy najechaniu */
+#task-list li:hover {
+  border-color: #007BFF;
+  transform: scale(1.02); 
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 10px; /* Odstęp między przyciskami */
+}
+
+.task-buttons button {
+  padding: 5px 10px;
+  font-size: 14px;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  max-width: 100px;
-  
+  transition: background-color 0.3s ease;
 }
 
-.task-form button:hover {
-  background-color: #218838;
+.task-buttons button:hover {
+  background-color: #0056b3;
 }
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Formaty formularzy logowania/rejestracji */
+#login-form-container, #register-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  width: 350px;
+  margin: 20px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+#login-form-container h2, #register-form-container h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Style dla inputów formularza */
+input[type="email"], input[type="password"], input[type="text"] {
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+input[type="email"]::placeholder, input[type="password"]::placeholder, input[type="text"]::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Wspólne style formularzy */
+form button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: 2px solid #28a745;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+form button:hover {
+  background-color: #218838;
+  color: #fff;
+  border-color: #218838;
+  transform: translateY(-5px);  /* Lekka animacja unoszenia */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Efekt cienia */
+}
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 15px 0;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+
+/* Responsywność */
+@media (max-width: 600px) {
+  #app {
+      margin: 10px;
+  }
+
+  form, .task-form {
+      width: 100%;
+  }
+
+  #login-form-container, #register-form-container {
+      width: 90%;
+      padding: 20px;
+  }
+}
+
+/* Tablety */
+@media (min-width: 601px) and (max-width: 1024px) {
+  #app {
+      max-width: 800px;
+  }
+
+  #login-form-container, #register-form-container {
+      width: 70%;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  #app {
+      max-width: 800px;
+  }
+
+  #login-form-container, #register-form-container {
+      width: 60%;
+  }
+}
+
