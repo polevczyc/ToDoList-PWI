@@ -12,11 +12,15 @@ body {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   max-width: 600px;
   width: 100%;
+  height: auto;
   padding: 20px;
   box-sizing: border-box;
-  overflow-y: auto;
+  min-height: 100vh;
 }
 
 h1 {
@@ -29,7 +33,14 @@ h1 {
   font-style: italic;
   font-size: 16px;
   font-weight: 700;
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+#user-email {
+  margin-right: auto;
 }
 
 #filter-incomplete-btn {
@@ -106,12 +117,12 @@ form, .task-form {
 #search-input {
   padding: 12px;
   font-size: 16px;
-  border: 2px solid #007BFF;
   border-radius: 25px;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.3s ease;
   margin-bottom: 20px;
+  background-color: #eee;
 }
 
 #search-input:focus {
@@ -216,7 +227,15 @@ button:focus {
   gap: 10px; /* Odstęp między przyciskami */
 }
 
+#task-input {
+  border: 2px #28a745 solid;
+}
 
+#task-input:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
 
 .completed {
   text-decoration: line-through;
@@ -285,15 +304,28 @@ form button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Efekt cienia */
 }
 
+.app-header {
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.app-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%; 
+}
+
 .app-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   text-align: center;
   padding: 15px 0;
   box-sizing: border-box;
-  z-index: 10;
+  margin-top: auto;
 }
 
 
