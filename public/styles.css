@@ -6,8 +6,9 @@ body {
   color: #333;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
+  overflow-y: auto;
 }
 
 #app {
@@ -15,10 +16,11 @@ body {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 h1 {
-  text-align: center;
+  text-align: center, ;
   color: #444;
 }
 
@@ -30,6 +32,61 @@ h1 {
   
 }
 
+#filter-incomplete-btn {
+  padding: 8px 15px;
+  font-size: 14px;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: auto;
+  display: block;
+  margin: 10px auto; /* Wyśrodkowanie przycisku */
+  transition: all 0.3s ease;
+}
+
+#filter-incomplete-btn:hover {
+  background-color: #e68900;
+}
+
+.task-buttons button {
+  padding: 8px 12px;
+  font-size: 14px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.task-buttons button:hover {
+  background-color: #218838;
+}
+
+.task-buttons button {
+  background: none;   /* Usuwa tło */
+  border: none;       /* Usuwa obramowanie */
+  padding: 0;         /* Usuwa dodatkowe odstępy */
+  cursor: pointer;    
+  display: flex;      /* Ustawia ikony w centrum */
+  align-items: center;
+  justify-content: center;
+  outline: none;      /* Usuwa efekt zaznaczenia */
+}
+
+/* Stylizacja ikon */
+.icon-btn {
+  width: 38px;  /* Powiększona szerokość ikony */
+  height: 38px; /* Powiększona wysokość ikony */
+  transition: all 0.2s ease-in-out;
+}
+
+.task-buttons button:hover .icon-btn {
+  transform: scale(1.1);  /* Powiększenie przy najechaniu */
+  opacity: 0.8;           /* Zmniejszona przezroczystość na hover */
+}
 /* Wspólne style dla formularzy */
 form, .task-form {
   top: 30px;
@@ -39,6 +96,31 @@ form, .task-form {
   width: 300px;
   margin: 0 auto;
 }
+
+.hashtag {
+  font-style: italic;
+  color: #007BFF;
+  margin-left: 10px;
+}
+
+#search-input {
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #007BFF;
+  border-radius: 25px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+#search-input:focus {
+  border-color: #28a745;
+  outline: none;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+
 
 /* Zaokrąglone przyciski i animacje */
 button {
@@ -111,24 +193,7 @@ button:focus {
   color: #aaa;
 }
 
-/* Przyciski w zadaniach */
-#task-list li button {
-  padding: 8px 12px;
-  font-size: 14px;
-  background-color: #d9534f;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  width: 100px;
-  margin-left: 10px;
-}
 
-#task-list li button:hover {
-  background-color: #c9302c;
-  transform: translateY(-3px);
-}
 
 /* Efekt na liście zadań przy najechaniu */
 #task-list li:hover {
@@ -151,20 +216,7 @@ button:focus {
   gap: 10px; /* Odstęp między przyciskami */
 }
 
-.task-buttons button {
-  padding: 5px 10px;
-  font-size: 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.task-buttons button:hover {
-  background-color: #0056b3;
-}
 
 .completed {
   text-decoration: line-through;

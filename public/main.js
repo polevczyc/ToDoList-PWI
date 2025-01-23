@@ -76,6 +76,113 @@ const register = async (e) => {
     alert('An error occurred during registration. Please try again later.');
   }
 };
+// Flaga do przechowywania stanu filtrowania
+let showIncompleteOnly = false;
+
+const renderFilteredTasks = async (query = '') => {
+  if (!token) return;
+
+  try {
+    const response = await fetch('http://localhost:3000/api/tasks', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    let tasks = await response.json();
+
+    // Filtruj po hashtagu
+    if (query.trim() !== '') {
+      tasks = tasks.filter((task) =>
+        task.hashtag.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    // Filtruj tylko nieukończone zadania, jeśli opcja jest aktywna
+    if (showIncompleteOnly) {
+      tasks = tasks.filter((task) => !task.completed);
+    }
+
+    const list = document.getElementById('task-list');
+    list.innerHTML = tasks
+      .map(
+        (task) => `
+      <li class="task-item ${task.completed ? 'completed' : ''}">
+          <span>${task.content}</span>
+          <span class="hashtag">${task.hashtag || ''}</span>
+          <div class="task-buttons">
+            <button onclick="completeTask('${task._id}')">
+              <img src="public/icons/complete.png" alt="Complete" class="icon-btn" />
+            </button>
+            <button onclick="editTask('${task._id}', '${task.content}', '${task.hashtag || ''}')">
+              <img src="public/icons/edit.png" alt="Edit" class="icon-btn" />
+            </button>
+            <button onclick="confirmDeleteTask('${task._id}')">
+              <img src="public/icons/delete.png" alt="Delete" class="icon-btn" />
+            </button>
+          </div>
+      </li>
+      `
+      )
+      .join('');
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    alert('Failed to load tasks. Please try again later.');
+  }
+};
+
+// Obsługa przycisku filtrowania nieukończonych zadań
+document.getElementById('filter-incomplete-btn').addEventListener('click', () => {
+  showIncompleteOnly = !showIncompleteOnly;
+  document.getElementById('filter-incomplete-btn').textContent = showIncompleteOnly ? 'Show All Tasks' : 'Show Incomplete Tasks';
+  renderFilteredTasks(document.getElementById('search-input').value);
+});
+
+// Funkcja edycji zadania
+const editTask = (taskId, currentContent, currentHashtag) => {
+  const newContent = prompt('Edit task content:', currentContent);
+  let newHashtag = prompt('Edit task hashtag:', currentHashtag);
+
+  if (newContent === null || newHashtag === null) return;
+
+  newHashtag = newHashtag.trim();
+  if (newHashtag && !newHashtag.startsWith('#')) {
+    newHashtag = `#${newHashtag}`;
+  }
+
+  updateTask(taskId, newContent, newHashtag);
+};
+
+
+// Funkcja aktualizacji zadania
+const updateTask = async (taskId, content, hashtag) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tasks/update/${taskId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ content, hashtag }),
+    });
+
+    if (response.ok) {
+      renderFilteredTasks(document.getElementById('search-input').value);
+    } else {
+      alert('Failed to update task.');
+    }
+  } catch (error) {
+    console.error('Error updating task:', error);
+    alert('Error updating task. Please try again.');
+  }
+};
+
+
+// Obsługa zdarzenia wpisywania w pole wyszukiwania
+document.getElementById('search-input').addEventListener('input', (e) => {
+  const query = e.target.value;
+  renderFilteredTasks(query);
+});
+
+
 
 const renderTasks = async () => {
   if (!token) return;
@@ -93,11 +200,19 @@ const renderTasks = async () => {
         (task) => `
       <li class="task-item ${task.completed ? 'completed' : ''}">
           <span>${task.content}</span>
+          <span class="hashtag">${task.hashtag || ''}</span>
           <div class="task-buttons">
-            <button onclick="completeTask('${task._id}')">${task.completed ? 'Undo' : 'Complete'}</button>
-            <button onclick="confirmDeleteTask('${task._id}')">Delete</button>
+            <button onclick="completeTask('${task._id}')">
+              <img src="public/icons/complete.png" alt="Complete" class="icon-btn" />
+            </button>  
+            <button onclick="editTask('${task._id}', '${task.content}', '${task.hashtag || ''}')">
+              <img src="public/icons/edit.png" alt="Edit" class="icon-btn" />
+            </button>
+            <button onclick="confirmDeleteTask('${task._id}')">
+              <img src="public/icons/delete.png" alt="Delete" class="icon-btn" />
+            </button>
           </div>
-        </li>
+      </li>
       `
       )
       .join('');
@@ -109,11 +224,16 @@ const renderTasks = async () => {
 
 const completeTask = async (taskId) => {
   try {
-    await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
+    const response = await fetch(`http://localhost:3000/api/tasks/complete/${taskId}`, {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${token}` },
     });
-    renderTasks();
+
+    if (response.ok) {
+      renderFilteredTasks(document.getElementById('search-input').value);
+    } else {
+      alert('Failed to update task status.');
+    }
   } catch (error) {
     console.error('Error completing task:', error);
     alert('Failed to update task. Please try again.');
@@ -147,6 +267,7 @@ const updateUI = () => {
   const userEmailSpan = document.getElementById('user-email');
   const loginForm = document.getElementById('login-form-container');
   const registerForm = document.getElementById('register-form-container');
+  
 
   if (token) {
     authButtons.style.display = 'none';
@@ -178,10 +299,15 @@ const logout = () => {
 document.getElementById('task-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const content = document.getElementById('task-input').value.trim();
+  let hashtag = document.getElementById('hashtag-input').value.trim();
 
   if (!content) {
     alert('Task content cannot be empty.');
     return;
+  }
+
+  if (hashtag && !hashtag.startsWith('#')) {
+    hashtag = `#${hashtag}`;
   }
 
   try {
@@ -191,12 +317,16 @@ document.getElementById('task-form').addEventListener('submit', async (e) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({ content, hashtag }),
     });
 
     if (response.ok) {
       document.getElementById('task-input').value = '';
-      renderTasks();
+      document.getElementById('hashtag-input').value = '';
+      
+      // Dodanie nowego zadania na górę listy
+      const newTask = await response.json();
+      prependTaskToList(newTask);
     } else if (response.status === 401) {
       alert('Session expired. Please log in again.');
       logout();
@@ -208,6 +338,33 @@ document.getElementById('task-form').addEventListener('submit', async (e) => {
     alert('Failed to add task. Please try again later.');
   }
 });
+
+// Funkcja dodająca nowe zadanie na górę listy
+const prependTaskToList = (task) => {
+  const list = document.getElementById('task-list');
+
+  const taskElement = document.createElement('li');
+  taskElement.classList.add('task-item');
+  if (task.completed) taskElement.classList.add('completed');
+
+  taskElement.innerHTML = `
+    <span>${task.content}</span>
+    <span class="hashtag">${task.hashtag || ''}</span>
+    <div class="task-buttons">
+            <button onclick="completeTask('${task._id}')">
+              <img src="public/icons/complete.png" alt="Complete" class="icon-btn" />
+            </button>
+            <button onclick="editTask('${task._id}', '${task.content}', '${task.hashtag || ''}')">
+              <img src="public/icons/edit.png" alt="Edit" class="icon-btn" />
+            </button>
+            <button onclick="confirmDeleteTask('${task._id}')">
+              <img src="public/icons/delete.png" alt="Delete" class="icon-btn" />
+            </button>
+    </div>
+  `;
+
+  list.insertBefore(taskElement, list.firstChild);
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('login-btn').addEventListener('click', showLoginForm);

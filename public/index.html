@@ -41,10 +41,14 @@
       </div>
 
       <div id="task-section" style="display: none;">
+        <input type="text" id="search-input" placeholder="Search by hashtag (e.g., #work)" />
         <form id="task-form" class="task-form">
           <input type="text" id="task-input" placeholder="Add a task" required />
+          <input type="text" id="hashtag-input" placeholder="Add a hashtag (e.g., #work)" />
           <button type="submit">Add</button>
         </form>
+        <button id="filter-incomplete-btn">Show Incomplete Tasks</button>
+
         <ul id="task-list" class="task-list"></ul>
       </div>
     </main>
