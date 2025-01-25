@@ -29,8 +29,8 @@ mongoose.connection.once('open', () => {
 });
 
 // Trasy API
-app.use('/api/tasks', taskRoutes); // Trasy dla zadań
-app.use('/api/users', userRoutes); // Trasy dla użytkowników
+app.use('/api/tasks', taskRoutes); 
+app.use('/api/users', userRoutes); 
 
 
 app.get('/', (req, res) => {
