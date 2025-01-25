@@ -1,5 +1,5 @@
 const express = require('express');
-const Task = require('../models/Task'); // Import modelu Task
+const Task = require('../models/Task'); 
 
 const router = express.Router();
 const { authenticate } = require('./userRoutes');
@@ -7,18 +7,18 @@ const { authenticate } = require('./userRoutes');
 
 // Dodaj nowe zadanie
 router.post('/', authenticate, async (req, res) => {
-  console.log('Request body:', req.body); // Log danych wejściowych
-  console.log('User ID:', req.userId);   // Log ID użytkownika z tokena
+  console.log('Request body:', req.body); 
+  console.log('User ID:', req.userId);   
   try {
     const task = new Task({
       content: req.body.content,
       hashtag: req.body.hashtag || '',  // Hashtag jest opcjonalny
-      userId: req.userId, // Przypisz userId z middleware `authenticate`
+      userId: req.userId, 
     });
     await task.save();
     res.status(201).send(task);
   } catch (error) {
-    console.error('Error saving task:', error); // Loguj błędy
+    console.error('Error saving task:', error);
     res.status(500).send({ error: 'Internal Server Error' });
   }
 });
@@ -26,13 +26,13 @@ router.post('/', authenticate, async (req, res) => {
 
 // Pobierz wszystkie zadania
 router.get('/', authenticate, async (req, res) => {
-  console.log("Fetching tasks for userId:", req.userId); // Debug
+  console.log("Fetching tasks for userId:", req.userId);
   try {
     const tasks = await Task.find({ userId: req.userId }).sort({ createdAt: -1 }); // Sortowanie od najnowszych
-    console.log("Tasks found:", tasks); // Debug
+    console.log("Tasks found:", tasks);
     res.send(tasks);
   } catch (error) {
-    console.error("Error fetching tasks:", error); // Debug
+    console.error("Error fetching tasks:", error); 
     res.status(500).send({ error: 'Error fetching tasks' });
   }
 });
@@ -47,8 +47,8 @@ router.patch('/update/:id', authenticate, async (req, res) => {
       return res.status(404).send({ error: 'Task not found' });
     }
 
-    task.content = content || task.content;  // Jeśli nowe content podano, aktualizujemy
-    task.hashtag = hashtag || task.hashtag;  // Jeśli hashtag podano, aktualizujemy
+    task.content = content || task.content;  
+    task.hashtag = hashtag || task.hashtag;  
 
     await task.save();
     res.status(200).send(task);

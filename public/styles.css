@@ -77,26 +77,26 @@ h1 {
 }
 
 .task-buttons button {
-  background: none;   /* Usuwa tło */
-  border: none;       /* Usuwa obramowanie */
-  padding: 0;         /* Usuwa dodatkowe odstępy */
+  background: none;   
+  border: none;       
+  padding: 0;         
   cursor: pointer;    
-  display: flex;      /* Ustawia ikony w centrum */
+  display: flex;      
   align-items: center;
   justify-content: center;
-  outline: none;      /* Usuwa efekt zaznaczenia */
+  outline: none;      
 }
 
 /* Stylizacja ikon */
 .icon-btn {
-  width: 38px;  /* Powiększona szerokość ikony */
-  height: 38px; /* Powiększona wysokość ikony */
+  width: 38px;  
+  height: 38px; 
   transition: all 0.2s ease-in-out;
 }
 
 .task-buttons button:hover .icon-btn {
-  transform: scale(1.1);  /* Powiększenie przy najechaniu */
-  opacity: 0.8;           /* Zmniejszona przezroczystość na hover */
+  transform: scale(1.1);  
+  opacity: 0.8;           
 }
 /* Wspólne style dla formularzy */
 form, .task-form {
@@ -153,8 +153,8 @@ button:hover {
   background-color: #0056b3;
   color: #fff;
   border-color: #0056b3;
-  transform: translateY(-5px);  /* Lekka animacja unoszenia */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Efekt cienia */
+  transform: translateY(-5px);  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
 }
 
 /* Dodatkowe efekty dla innych przycisków */
@@ -224,7 +224,7 @@ button:focus {
 
 .task-buttons {
   display: flex;
-  gap: 10px; /* Odstęp między przyciskami */
+  gap: 10px; 
 }
 
 #task-input {
